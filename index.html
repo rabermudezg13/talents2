@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Sistema de Gestión</h1>
+        <button onclick="clearAllData()" class="clear-button">Limpiar Todos los Datos</button>
+    </header>
+
     <div class="tabs">
         <button class="tab-button active" data-tab="labRequest">Lab Request</button>
         <button class="tab-button" data-tab="infoRequest">Info Request</button>
@@ -71,6 +76,10 @@
         <button onclick="exportToCSV('appointments')" class="export-button">Exportar a CSV</button>
         <div id="appointmentsTable"></div>
     </div>
+
+    <footer>
+        <p>© 2024 Sistema de Gestión - Todos los derechos reservados</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
