@@ -60,7 +60,6 @@ function updateLabRequestsTable() {
     html += '</table>';
     table.innerHTML = html;
     
-    // Actualizar conteo de maestros por fecha
     updateTeachersByDate();
 }
 
@@ -86,7 +85,6 @@ function editLabRequest(id) {
         document.getElementById('labDate').value = request.labDate;
         document.getElementById('labStatus').value = request.status;
         
-        // Eliminar el request anterior
         labRequests = labRequests.filter(r => r.id !== id);
         updateLabRequestsTable();
     }
@@ -209,4 +207,75 @@ function updateAppointmentsTable() {
 function deleteAppointment(id) {
     appointments = appointments.filter(a => a.id !== id);
     updateAppointmentsTable();
+}
+
+function exportToCSV(type) {
+    let data = [];
+    let filename = '';
+    let headers = [];
+
+    switch(type) {
+        case 'labRequests':
+            data = labRequests;
+            filename = 'lab_requests.csv';
+            headers = ['Nombre', 'ID', 'Fecha', 'Status'];
+            break;
+        case 'infoRequests':
+            data = infoRequests;
+            filename = 'info_requests.csv';
+            headers = ['Nombre', 'ID', 'Status', 'Fecha Enviado', 'Fecha Límite'];
+            break;
+        case 'appointments':
+            data = appointments;
+            filename = 'appointments.csv';
+            headers = ['Nombre', 'ID', 'Fecha', 'Status', 'Edad', 'Sexo', 'Tiempo'];
+            break;
+    }
+
+    let csvContent = headers.join(',') + '\n';
+
+    data.forEach(item => {
+        let row = [];
+        switch(type) {
+            case 'labRequests':
+                row = [
+                    item.teacherName,
+                    item.teacherId,
+                    item.labDate,
+                    item.status
+                ];
+                break;
+            case 'infoRequests':
+                row = [
+                    item.name,
+                    item.infoId,
+                    item.status,
+                    item.submittedDate,
+                    item.untilDate
+                ];
+                break;
+            case 'appointments':
+                row = [
+                    item.name,
+                    item.appointmentId,
+                    item.date,
+                    item.status,
+                    item.age,
+                    item.gender,
+                    item.processTime
+                ];
+                break;
+        }
+        csvContent += row.join(',') + '\n';
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
