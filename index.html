@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab-button active" data-tab="labRequest">Lab Request</button>
+        <button class="tab-button" data-tab="infoRequest">Info Request</button>
+        <button class="tab-button" data-tab="appointments">Office Appointments</button>
+    </div>
+
+    <div id="labRequest" class="tab-content active">
+        <h2>Lab Request</h2>
+        <form id="labRequestForm">
+            <input type="text" id="teacherName" placeholder="Nombre del Maestro" required>
+            <input type="text" id="teacherId" placeholder="ID del Maestro" required>
+            <input type="date" id="labDate" required>
+            <select id="labStatus">
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="completed">Completed</option>
+            </select>
+            <button type="submit">Agregar Request</button>
+        </form>
+        <div id="labRequestsTable"></div>
+        <div id="teachersByDate"></div>
+    </div>
+
+    <div id="infoRequest" class="tab-content">
+        <h2>Info Request</h2>
+        <form id="infoRequestForm">
+            <input type="text" id="infoName" placeholder="Nombre" required>
+            <input type="text" id="infoId" placeholder="ID" required>
+            <select id="infoStatus">
+                <option value="letterSent">Letter Sent</option>
+                <option value="review">Review</option>
+                <option value="approved">Approved</option>
+                <option value="notApproved">Not Approved</option>
+            </select>
+            <input type="date" id="submittedDate" required>
+            <input type="date" id="untilDate" required>
+            <button type="submit">Agregar Info Request</button>
+        </form>
+        <div id="infoRequestsTable"></div>
+    </div>
+
+    <div id="appointments" class="tab-content">
+        <h2>Office Appointments</h2>
+        <form id="appointmentForm">
+            <input type="text" id="appointmentName" placeholder="Nombre" required>
+            <input type="text" id="appointmentId" placeholder="ID" required>
+            <input type="date" id="appointmentDate" required>
+            <select id="appointmentStatus">
+                <option value="complete">Complete</option>
+                <option value="pending">Pending</option>
+            </select>
+            <input type="number" id="age" placeholder="Edad" required>
+            <select id="gender">
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+            <input type="time" id="processTime" required>
+            <button type="submit">Agregar Appointment</button>
+        </form>
+        <div id="appointmentsTable"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
