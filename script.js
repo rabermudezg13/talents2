@@ -1,7 +1,34 @@
-// Datos de ejemplo (normalmente estos vendrían de una base de datos)
-let labRequests = [];
-let infoRequests = [];
-let appointments = [];
+// Datos de ejemplo (cargados desde localStorage si existen)
+let labRequests = JSON.parse(localStorage.getItem('labRequests')) || [];
+let infoRequests = JSON.parse(localStorage.getItem('infoRequests')) || [];
+let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+
+// Cargar las tablas iniciales
+window.addEventListener('load', () => {
+    updateLabRequestsTable();
+    updateInfoRequestsTable();
+    updateAppointmentsTable();
+});
+
+// Función para guardar en localStorage
+function saveToLocalStorage() {
+    localStorage.setItem('labRequests', JSON.stringify(labRequests));
+    localStorage.setItem('infoRequests', JSON.stringify(infoRequests));
+    localStorage.setItem('appointments', JSON.stringify(appointments));
+}
+
+// Función para limpiar todos los datos
+function clearAllData() {
+    if (confirm('¿Estás seguro de que quieres eliminar todos los datos? Esta acción no se puede deshacer.')) {
+        localStorage.clear();
+        labRequests = [];
+        infoRequests = [];
+        appointments = [];
+        updateLabRequestsTable();
+        updateInfoRequestsTable();
+        updateAppointmentsTable();
+    }
+}
 
 // Manejo de tabs
 document.querySelectorAll('.tab-button').forEach(button => {
@@ -25,6 +52,7 @@ document.getElementById('labRequestForm').addEventListener('submit', function(e)
         status: document.getElementById('labStatus').value
     };
     labRequests.push(request);
+    saveToLocalStorage();
     updateLabRequestsTable();
     this.reset();
 });
@@ -86,13 +114,17 @@ function editLabRequest(id) {
         document.getElementById('labStatus').value = request.status;
         
         labRequests = labRequests.filter(r => r.id !== id);
+        saveToLocalStorage();
         updateLabRequestsTable();
     }
 }
 
 function deleteLabRequest(id) {
-    labRequests = labRequests.filter(r => r.id !== id);
-    updateLabRequestsTable();
+    if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+        labRequests = labRequests.filter(r => r.id !== id);
+        saveToLocalStorage();
+        updateLabRequestsTable();
+    }
 }
 
 // Info Requests
@@ -107,6 +139,7 @@ document.getElementById('infoRequestForm').addEventListener('submit', function(e
         untilDate: document.getElementById('untilDate').value
     };
     infoRequests.push(request);
+    saveToLocalStorage();
     updateInfoRequestsTable();
     this.reset();
 });
@@ -145,8 +178,11 @@ function updateInfoRequestsTable() {
 }
 
 function deleteInfoRequest(id) {
-    infoRequests = infoRequests.filter(r => r.id !== id);
-    updateInfoRequestsTable();
+    if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+        infoRequests = infoRequests.filter(r => r.id !== id);
+        saveToLocalStorage();
+        updateInfoRequestsTable();
+    }
 }
 
 // Appointments
@@ -163,6 +199,7 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
         processTime: document.getElementById('processTime').value
     };
     appointments.push(appointment);
+    saveToLocalStorage();
     updateAppointmentsTable();
     this.reset();
 });
@@ -205,8 +242,11 @@ function updateAppointmentsTable() {
 }
 
 function deleteAppointment(id) {
-    appointments = appointments.filter(a => a.id !== id);
-    updateAppointmentsTable();
+    if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+        appointments = appointments.filter(a => a.id !== id);
+        saveToLocalStorage();
+        updateAppointmentsTable();
+    }
 }
 
 function exportToCSV(type) {
