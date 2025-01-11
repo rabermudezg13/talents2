@@ -82,3 +82,12 @@ th {
 .delete-button {
     background-color: #dc3545;
 }
+
+.export-button {
+    background-color: #17a2b8;
+    margin: 10px 0;
+}
+
+.export-button:hover {
+    background-color: #138496;
+}
